@@ -1,0 +1,120 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  height: 100%;
+  background-color: #2c3e50;
+  color: white;
+  position: fixed;
+  padding-top: 20px;
+  transition: transform 0.3s ease;
+}
+
+/* Toggle visibility for small screens */
+.sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+/* Hamburger button */
+.hamburger {
+  font-size: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none; /* Pastikan hanya disembunyikan pada layar besar */
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 1000; /* Pastikan tombol di atas elemen lain */
+  color: white; /* Pastikan tombol terlihat */
+}
+
+/* Sidebar links */
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  padding: 10px 20px;
+  display: block;
+  transition: background 0.3s;
+}
+
+.sidebar ul li a:hover {
+  background-color: #34495e;
+  border-radius: 5px;
+}
+
+.sidebar ul li a i {
+  margin-right: 10px; /* Jarak antara ikon dan teks */
+  font-size: 1.2rem; /* Ukuran ikon */
+}
+
+/* Main content adjustment */
+.main-content {
+  margin-left: 250px;
+  padding: 20px 40px;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content h1 {
+  font-size: 28px;
+}
+
+.main-content p {
+  font-size: 18px;
+}
+
+/* Button Custom Style */
+#statusButton.active {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+#statusButton.inactive {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+/* Responsif: tampilkan hamburger pada layar kecil */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 10px 20px; /* Jarak lebih kecil pada layar kecil */
+  }
+
+  .hamburger {
+    display: block; /* Menampilkan tombol hamburger pada layar kecil */
+  }
+
+  .sidebar {
+    transform: translateX(-100%); /* Sidebar disembunyikan secara default */
+  }
+
+  .sidebar.active {
+    transform: translateX(0); /* Sidebar muncul saat aktif */
+  }
+
+  .main-content {
+    margin-left: 0; /* Menyesuaikan margin ketika sidebar hilang */
+  }
+}
