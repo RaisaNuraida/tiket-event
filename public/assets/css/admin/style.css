@@ -63,6 +63,13 @@ body {
   border-radius: 5px;
 }
 
+.sidebar ul li.active a {
+  background-color: #34495e;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+}
+
 .sidebar ul li a i {
   margin-right: 10px; /* Jarak antara ikon dan teks */
   font-size: 1.2rem; /* Ukuran ikon */

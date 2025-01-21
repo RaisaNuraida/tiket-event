@@ -23,8 +23,7 @@
         <h2>Admin Panel</h2>
         <ul>
             <li><a href="index"><i class="bi bi-house-door-fill"></i> Dashboard</a></li>
-            <li><a href="events"><i class="bi bi-calendar-event"></i> Kelola Event</a></li>
-            <li><a href="orders"><i class="bi bi-receipt"></i> Pesanan</a></li>
+            <li class="active"><a href="events"><i class="bi bi-calendar-event"></i> Kelola Event</a></li>
             <li><a href="users"><i class="bi bi-people"></i> Pengguna</a></li>
             <li><a href="settings"><i class="bi bi-gear"></i> Pengaturan</a></li>
             <li><a href="logout"><i class="bi bi-box-arrow-right"></i> Keluar</a></li>
@@ -33,6 +32,8 @@
 
 
     <div class="main-content">
+        <h1>Kelola Event</h1>
+
         <!-- Search dan Filter -->
         <div class="row align-items-center mb-4">
             <div class="col-md-3 mb-2 mb-md-0">
@@ -63,48 +64,51 @@
         </div>
 
         <!-- Tabel Daftar Event dengan Pembungkus Responsif -->
-        <div class="table-responsive">
-            <table class="table table-striped" id="eventTable">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Event</th>
-                        <th>Kategori</th>
-                        <th>Tanggal</th>
-                        <th>Total Tiket</th>
-                        <th>Tiket Terjual</th>
-                        <th>Status</th>
-                        <th>Created at</th>
-                        <th>Updated at</th>
-                        <th class="text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Konser Musik</td>
-                        <td>Musik</td>
-                        <td>2025-01-20</td>
-                        <td>500</td>
-                        <td>250</td>
-                        <td id="statusText">Active</td>
-                        <td>20/22/2025</td>
-                        <td>20/22/2025</td>
-                        <td class="d-flex justify-content-between">
-                            <button class="btn btn-sm btn-success flex-fill me-2" id="statusButton"
-                                onclick="toggleStatus()">Active</button>
-                            <button class="btn btn-sm btn-primary flex-fill me-2">Tinjau</button>
-                            <button class="btn btn-sm btn-warning flex-fill me-2"
-                                onclick="editEvent(this)">Edit</button>
-                            <button class="btn btn-sm btn-danger flex-fill me-2"
-                                onclick="deleteEvent(this)">Hapus</button>
-
-                        </td>
-
-                    </tr>
-                    <!-- Baris tambahan akan ditambahkan dengan JavaScript -->
-                </tbody>
-            </table>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Data Event</h5>
+                <div class="table-responsive">
+                    <table class="table table-striped" id="eventTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Event</th>
+                                <th>Kategori</th>
+                                <th>Tanggal</th>
+                                <th>Total Tiket</th>
+                                <th>Tiket Terjual</th>
+                                <th>Status</th>
+                                <th>Created at</th>
+                                <th>Updated at</th>
+                                <th class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Konser Musik</td>
+                                <td>Musik</td>
+                                <td>2025-01-20</td>
+                                <td>500</td>
+                                <td>250</td>
+                                <td id="statusText">Active</td>
+                                <td>20/22/2025</td>
+                                <td>20/22/2025</td>
+                                <td class="d-flex justify-content-between">
+                                    <button class="btn btn-sm btn-success flex-fill me-2" id="statusButton"
+                                        onclick="toggleStatus()">Active</button>
+                                    <button class="btn btn-sm btn-primary flex-fill me-2">Tinjau</button>
+                                    <button class="btn btn-sm btn-warning flex-fill me-2"
+                                        onclick="editEvent(this)">Edit</button>
+                                    <button class="btn btn-sm btn-danger flex-fill me-2"
+                                        onclick="deleteEvent(this)">Hapus</button>
+                                </td>
+                            </tr>
+                            <!-- Baris tambahan akan ditambahkan dengan JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 

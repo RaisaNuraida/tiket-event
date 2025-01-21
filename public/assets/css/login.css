@@ -1,0 +1,46 @@
+body {
+  background-color: #f4f4f9;
+}
+
+.login-container {
+  width: 100%; /* Lebar penuh untuk layar kecil */
+  max-width: 400px; /* Batas maksimal lebar kontainer */
+  margin: 0 auto;
+  padding: 40px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h1 {
+  font-size: 26px; /* Sedikit lebih besar */
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.form-label {
+  font-size: 14px; /* Label diperkecil */
+  color: #555;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.btn-primary {
+  padding: 12px; /* Tambahkan padding agar lebih nyaman */
+  font-size: 16px; /* Ukuran teks tombol lebih besar */
+}
+
+/* Media Query untuk layar yang lebih kecil */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 20px; /* Kurangi padding pada layar kecil */
+  }
+
+  .btn-primary {
+    padding: 10px; /* Kurangi padding tombol untuk layar kecil */
+    font-size: 14px;
+  }
+}
