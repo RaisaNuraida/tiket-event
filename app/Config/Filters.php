@@ -73,7 +73,7 @@ class Filters extends BaseFilters
         'before' => [
             // 'honeypot',
             'login' => ['except' => ['login', 'login/*', 'logout']], // Kecualikan rute login/logout
-            'csrf',
+            'csrf' => ['except' => ['admin/users/update_user']],
             // 'invalidchars',
         ],
         'after' => [
