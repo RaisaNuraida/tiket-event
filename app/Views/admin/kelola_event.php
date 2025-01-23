@@ -26,7 +26,7 @@
             <li class="active"><a href="events"><i class="bi bi-calendar-event"></i> Kelola Event</a></li>
             <li><a href="users"><i class="bi bi-people"></i> Pengguna</a></li>
             <li><a href="settings"><i class="bi bi-gear"></i> Pengaturan</a></li>
-            <li><a href="logout"><i class="bi bi-box-arrow-right"></i> Keluar</a></li>
+            <li><a href="/logout"><i class="bi bi-box-arrow-right"></i> Keluar</a></li>
         </ul>
     </div>
 

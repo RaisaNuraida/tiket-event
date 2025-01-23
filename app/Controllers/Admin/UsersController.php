@@ -1,24 +1,13 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Models\GroupModel;
 use App\Models\UserModel;
+use App\Controllers\BaseController;
 
-class AdminController extends BaseController
+class UsersController extends BaseController
 {
-    /**
-     * MASUK PAGE
-     */
-    public function admin_index(): string
-    {
-        return view('admin/index');
-    }
-    public function admin_events(): string
-    {
-        return view('admin/kelola_event');
-    }
-
     /**
      * MEMANGGIL DATA USERS
      * KEDALAM TABEL USERS
@@ -143,5 +132,30 @@ class AdminController extends BaseController
             'success' => true,
             'message' => 'Pengguna berhasil diperbarui.'
         ]);
+    }
+
+    public function update_status($id)
+    {
+        $status = $this->request->getPost('status');
+
+        // Validasi input
+        if (!in_array($status, ['active', 'inactive'])) {
+            return redirect()->back()->with('error', 'Status tidak valid.');
+        }
+
+        $UserModel = new UserModel();
+        $user = $UserModel->find($id);
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Pengguna tidak ditemukan.');
+        }
+
+        // Ambil username sebelum status diperbarui
+        $username = $user['username'];
+
+        // Update status
+        $UserModel->update($id, ['status' => $status]);
+
+        return redirect()->back()->with('success', 'Status pengguna <strong>' . $username . '</strong> berhasil diperbarui.');
     }
 }

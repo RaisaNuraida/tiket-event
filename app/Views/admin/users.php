@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<?= csrf_hash(); ?>">
     <title>Pengguna</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -22,7 +23,7 @@
             <li><a href="events"><i class="bi bi-calendar-event"></i> Kelola Event</a></li>
             <li class="active"><a href="users"><i class="bi bi-people"></i> Pengguna</a></li>
             <li><a href="settings"><i class="bi bi-gear"></i> Pengaturan</a></li>
-            <li><a href="logout"><i class="bi bi-box-arrow-right"></i> Keluar</a></li>
+            <li><a href="/logout"><i class="bi bi-box-arrow-right"></i> Keluar</a></li>
         </ul>
     </div>
 
@@ -134,16 +135,22 @@
                                     <td><?= $row['created_at']; ?></td>
                                     <td><?= $row['updated_at']; ?></td>
                                     <td>
-                                        <button class="btn btn-sm btn-success" id="statusButton<?= $row['id']; ?>"
-                                            onclick="toggleStatus(<?= $row['id']; ?>, '<?= $row['status']; ?>')">
-                                            <?= ucfirst($row['status']); ?>
-                                        </button>
+                                        <form action="<?= base_url('admin/users/update_status/' . $row['id']); ?>" method="post"
+                                            style="display:inline;">
+                                            <?= csrf_field(); ?>
+                                            <input type="hidden" name="status"
+                                                value="<?= $row['status'] === 'active' ? 'inactive' : 'active'; ?>">
+                                            <button
+                                                class="btn btn-sm <?= $row['status'] === 'active' ? 'btn-success' : 'btn-danger'; ?>"
+                                                type="submit">
+                                                <?= ucfirst($row['status']); ?>
+                                            </button>
+                                        </form>
                                         <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#editUserModal"
                                             onclick="fillEditModal(<?= htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">
                                             Edit
                                         </button>
-                                    </td>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -235,6 +242,7 @@
                     console.error('Error:', error);
                 });
         });
+
     </script>
 
     <!-- BEGIN: JS -->
