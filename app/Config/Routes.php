@@ -38,7 +38,7 @@ $routes->get('admin/users', 'Admin\UsersController::admin_users');
 $routes->get('admin/users/filter_users', 'Admin\UsersController::filter_users');
 
 // POST
-$routes->post('admin/users', 'Admin\UsersController::add_users');
+$routes->post('admin/users/add_user', 'Admin\UsersController::add_users');
 $routes->post('admin/users/update_user/(:num)', 'Admin\UsersController::edit_users/$1');
 $routes->post('admin/users/update_status/(:num)', 'Admin\UsersController::update_status/$1');
 

@@ -149,7 +149,7 @@
     <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="addUserForm" method="POST" action="<?= base_url('admin/users'); ?>">
+                <form id="addUserForm" method="POST" action="<?= base_url('admin/users/add_user'); ?>">
                     <?= csrf_field() ?>
                     <div class="modal-header">
                         <h5 class="modal-title" id="addUserModalLabel">Tambah Pengguna</h5>

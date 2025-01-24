@@ -15,11 +15,10 @@ class UsersController extends BaseController
     public function admin_users()
     {
         $GroupModel = new GroupModel();
-
         $UserModel = new UserModel();
 
-        // Ambil semua data pengguna
-        $data['users'] = $UserModel->findAll();
+        // Ambil semua data pengguna dan urutkan berdasarkan username secara ascending
+        $data['users'] = $UserModel->orderBy('username', 'ASC')->findAll();
 
         $data['roles'] = $GroupModel->findAll();
 
@@ -51,7 +50,26 @@ class UsersController extends BaseController
 
         // Validasi input
         if (empty($email) || empty($username) || empty($password) || empty($roleName)) {
-            return redirect()->back()->with('error', 'Semua field harus diisi.');
+            return redirect()->back()
+                ->withInput() // Menyimpan data input
+                ->with('error', 'Semua field harus diisi.')
+                ->with('modal', 'addUserModal'); // Menandai modal
+        }
+
+        // Periksa apakah username sudah ada
+        if ($UserModel->where('username', $username)->first()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Username sudah digunakan. Silakan pilih username lain.')
+                ->with('modal', 'addUserModal');
+        }
+
+        // Periksa apakah email sudah ada
+        if ($UserModel->where('email', $email)->first()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Email sudah digunakan. Silakan pilih email lain.')
+                ->with('modal', 'addUserModal');
         }
 
         // Hash password sebelum disimpan
@@ -61,7 +79,10 @@ class UsersController extends BaseController
         $role = $GroupModel->where('name', $roleName)->first();
 
         if (!$role) {
-            return redirect()->back()->with('error', 'Role tidak valid.');
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Role tidak valid.')
+                ->with('modal', 'addUserModal');
         }
 
         // Simpan data user ke database
@@ -174,6 +195,10 @@ class UsersController extends BaseController
         return redirect()->back()->with('success', 'Status pengguna <strong>' . $username . '</strong> berhasil diperbarui menjadi <strong>' . ucfirst($status) . '</strong>.');
     }
 
+    /**
+     * Summary of filter_users
+     * @return string
+     */
     public function filter_users()
     {
         $searchUser = $this->request->getGet('searchUser'); // Input nama pengguna
@@ -199,6 +224,9 @@ class UsersController extends BaseController
         if (!empty($status)) {
             $builder->where('status', $status);
         }
+
+        // Urutkan data berdasarkan username secara ascending
+        $builder->orderBy('username', 'ASC');
 
         // Ambil data pengguna yang sudah difilter
         $data['users'] = $builder->get()->getResultArray();
