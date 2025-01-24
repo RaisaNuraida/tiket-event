@@ -17,17 +17,26 @@ class UsersController extends BaseController
         $GroupModel = new GroupModel();
         $UserModel = new UserModel();
 
-        // Ambil semua data pengguna dan urutkan berdasarkan username secara ascending
-        $data['users'] = $UserModel->orderBy('username', 'ASC')->findAll();
+        // Menentukan jumlah data per halaman
+        $perPage = 10;  // Misalnya 10 data per halaman
+        $currentPage = $this->request->getVar('page') ? $this->request->getVar('page') : 1;
 
+        // Ambil data pengguna dan urutkan berdasarkan username secara ascending
+        $data['users'] = $UserModel->orderBy('username', 'ASC')->paginate($perPage, 'default', $currentPage);
+
+        // Ambil total data untuk pagination
+        $data['pager'] = $UserModel->pager;
+
+        // Ambil data roles untuk dropdown
         $data['roles'] = $GroupModel->findAll();
 
+        // Siapkan data status untuk dropdown
         $data['status'] = [
             ['status' => 'active'],
             ['status' => 'inactive'],
         ];
 
-        // Kirim data pengguna dan roles ke view
+        // Kirim data ke view
         return view('admin/users', $data);
     }
 
@@ -208,28 +217,30 @@ class UsersController extends BaseController
         $UserModel = new UserModel();
         $GroupModel = new GroupModel();
 
-        $builder = $UserModel->builder();
-
         // Filter berdasarkan nama pengguna jika diisi
         if (!empty($searchUser)) {
-            $builder->like('username', $searchUser);
+            $UserModel->like('username', $searchUser);
         }
 
         // Filter berdasarkan role jika diisi
         if (!empty($role)) {
-            $builder->where('role', $role); // Langsung cocokkan dengan nama role
+            $UserModel->where('role', $role); // Langsung cocokkan dengan nama role
         }
 
         // Filter berdasarkan status jika diisi
         if (!empty($status)) {
-            $builder->where('status', $status);
+            $UserModel->where('status', $status);
         }
 
-        // Urutkan data berdasarkan username secara ascending
-        $builder->orderBy('username', 'ASC');
+        // Urutkan berdasarkan username secara ascending
+        $UserModel->orderBy('username', 'ASC');
 
-        // Ambil data pengguna yang sudah difilter
-        $data['users'] = $builder->get()->getResultArray();
+        // Menentukan jumlah data per halaman
+        $perPage = 10;
+        $currentPage = $this->request->getVar('page') ? $this->request->getVar('page') : 1;
+
+        // Ambil data pengguna yang sudah difilter dengan paginate()
+        $data['users'] = $UserModel->paginate($perPage, 'default', $currentPage);
 
         // Ambil data roles dari tabel GroupModel
         $data['roles'] = $GroupModel->findAll();
@@ -239,6 +250,9 @@ class UsersController extends BaseController
             ['status' => 'active'],
             ['status' => 'inactive'],
         ];
+
+        // Ambil data pager untuk pagination
+        $data['pager'] = $UserModel->pager;
 
         // Kirim data ke view
         return view('admin/users', $data);

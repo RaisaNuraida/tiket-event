@@ -103,7 +103,7 @@
                     </thead>
                     <tbody>
                         <?php if (!empty($users)): ?>
-                            <?php $no = 1; ?>
+                            <?php $no = 1 + (($pager->getCurrentPage('default') - 1) * 10); ?>
                             <?php foreach ($users as $row): ?>
                                 <tr>
                                     <td><?= $no++; ?> </td>
@@ -140,6 +140,13 @@
                         <?php endif; ?>
                     </tbody>
                 </table>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <ul class="pagination justify-content-center">
+                        <?= $pager->links(); ?>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
