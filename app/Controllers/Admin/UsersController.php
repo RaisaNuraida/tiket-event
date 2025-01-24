@@ -9,9 +9,8 @@ use App\Controllers\BaseController;
 class UsersController extends BaseController
 {
     /**
-     * MEMANGGIL DATA USERS
-     * KEDALAM TABEL USERS
-     * DAN HALAMAN USERS
+     * Summary of admin_users
+     * @return string
      */
     public function admin_users()
     {
@@ -22,16 +21,21 @@ class UsersController extends BaseController
         // Ambil semua data pengguna
         $data['users'] = $UserModel->findAll();
 
-        // Ambil daftar role dari database (tanpa duplikasi)
         $data['roles'] = $GroupModel->findAll();
+
+        $data['status'] = [
+            ['status' => 'active'],
+            ['status' => 'inactive'],
+        ];
 
         // Kirim data pengguna dan roles ke view
         return view('admin/users', $data);
     }
 
+
     /**
-     * MENAMBAH USERS
-     * DI HALAMAN USERS
+     * Summary of add_users
+     * @return \CodeIgniter\HTTP\RedirectResponse
      */
     public function add_users()
     {
@@ -72,6 +76,12 @@ class UsersController extends BaseController
         return redirect()->to('admin/users')->with('success', 'Pengguna berhasil ditambahkan');
     }
 
+
+    /**
+     * Summary of edit_users
+     * @param mixed $id
+     * @return \CodeIgniter\HTTP\ResponseInterface
+     */
     public function edit_users($id)
     {
         $UserModel = new UserModel();
@@ -134,6 +144,11 @@ class UsersController extends BaseController
         ]);
     }
 
+    /**
+     * Summary of update_status
+     * @param mixed $id
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     */
     public function update_status($id)
     {
         $status = $this->request->getPost('status');
@@ -156,6 +171,48 @@ class UsersController extends BaseController
         // Update status
         $UserModel->update($id, ['status' => $status]);
 
-        return redirect()->back()->with('success', 'Status pengguna <strong>' . $username . '</strong> berhasil diperbarui.');
+        return redirect()->back()->with('success', 'Status pengguna <strong>' . $username . '</strong> berhasil diperbarui menjadi <strong>' . ucfirst($status) . '</strong>.');
+    }
+
+    public function filter_users()
+    {
+        $searchUser = $this->request->getGet('searchUser'); // Input nama pengguna
+        $role = $this->request->getGet('searchRole');       // Input role pengguna
+        $status = $this->request->getGet('status');         // Input status pengguna
+
+        $UserModel = new UserModel();
+        $GroupModel = new GroupModel();
+
+        $builder = $UserModel->builder();
+
+        // Filter berdasarkan nama pengguna jika diisi
+        if (!empty($searchUser)) {
+            $builder->like('username', $searchUser);
+        }
+
+        // Filter berdasarkan role jika diisi
+        if (!empty($role)) {
+            $builder->where('role', $role); // Langsung cocokkan dengan nama role
+        }
+
+        // Filter berdasarkan status jika diisi
+        if (!empty($status)) {
+            $builder->where('status', $status);
+        }
+
+        // Ambil data pengguna yang sudah difilter
+        $data['users'] = $builder->get()->getResultArray();
+
+        // Ambil data roles dari tabel GroupModel
+        $data['roles'] = $GroupModel->findAll();
+
+        // Siapkan data status untuk dropdown
+        $data['status'] = [
+            ['status' => 'active'],
+            ['status' => 'inactive'],
+        ];
+
+        // Kirim data ke view
+        return view('admin/users', $data);
     }
 }

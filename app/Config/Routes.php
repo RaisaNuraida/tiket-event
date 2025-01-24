@@ -35,6 +35,7 @@ $routes->get('admin/events', 'Admin\EventController::admin_events');
 
 // GET
 $routes->get('admin/users', 'Admin\UsersController::admin_users');
+$routes->get('admin/users/filter_users', 'Admin\UsersController::filter_users');
 
 // POST
 $routes->post('admin/users', 'Admin\UsersController::add_users');

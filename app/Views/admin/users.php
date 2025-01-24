@@ -32,19 +32,39 @@
 
         <!-- Pencarian dan Filter -->
         <div class="row mb-4 align-items-center">
-            <div class="col-md-4">
-                <input type="text" id="searchUser" class="form-control" placeholder="Cari nama pengguna...">
-            </div>
-            <div class="col-md-4">
-                <select id="filterUser" class="form-select">
-                    <option value="">Semua Pengguna</option>
-                    <option value="admin">Admin</option>
-                    <option value="kasir">Kasir</option>
-                    <option value="owner">Owner</option>
-                </select>
+            <!-- Form Pencarian -->
+            <div class="col-md-9">
+                <form action="<?= site_url('admin/users/filter_users'); ?>" method="get" class="row g-2">
+                    <div class="col-md-4">
+                        <input type="text" id="searchUser" name="searchUser" class="form-control"
+                            placeholder="Cari nama pengguna...">
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="searchRole" name="searchRole">
+                            <option value="">Semua Role</option>
+                            <?php foreach ($roles as $role): ?>
+                                <option value="<?= $role['name']; ?>"><?= ucfirst($role['name']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="status" id="status" class="form-select">
+                            <option value="">Status</option>
+                            <?php foreach ($status as $statusOption): ?>
+                                <option value="<?= $statusOption['status']; ?>"><?= ucfirst($statusOption['status']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search"></i> Cari
+                        </button>
+                    </div>
+                </form>
             </div>
             <!-- Tombol Tambah Pengguna -->
-            <div class="col-md-4 text-end">
+            <div class="col-md-3 text-end">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
                     <i class="bi bi-person-plus-fill"></i> Tambah Pengguna
                 </button>
@@ -63,47 +83,6 @@
                 <?= session()->getFlashdata('error'); ?>
             </div>
         <?php endif; ?>
-
-        <!-- Modal Tambah Pengguna -->
-        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form id="addUserForm" method="POST" action="<?= base_url('admin/users'); ?>">
-                        <?= csrf_field() ?>
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addUserModalLabel">Tambah Pengguna</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="role" class="form-label">Role</label>
-                                <select class="form-select" id="role" name="role" required>
-                                    <?php foreach ($roles as $role): ?>
-                                        <option value="<?= $role['name']; ?>"><?= ucfirst($role['name']); ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
 
         <!-- Tabel Pengguna -->
         <div class="card">
@@ -161,6 +140,49 @@
                         <?php endif; ?>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Tambah Pengguna -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="addUserForm" method="POST" action="<?= base_url('admin/users'); ?>">
+                    <?= csrf_field() ?>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Tambah Pengguna</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value=""></option>
+                                <?php foreach ($roles as $role): ?>
+                                    <option value="<?= $role['name']; ?>"><?= ucfirst($role['name']); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
