@@ -24,6 +24,12 @@ class LoginController extends BaseController
             $user = $UserModel->where('username', $username)->first();
 
             if ($user) {
+                // Cek apakah status pengguna aktif
+                if ($user['status'] === 'inactive') {
+                    session()->setFlashdata('error', 'Akun Anda tidak aktif.');
+                    return redirect()->to('/login');
+                }
+
                 // Verifikasi password
                 if (password_verify($password, $user['password_hash'])) {
                     // Password benar, set session

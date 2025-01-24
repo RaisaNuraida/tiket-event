@@ -201,7 +201,7 @@ class UsersController extends BaseController
         // Update status
         $UserModel->update($id, ['status' => $status]);
 
-        return redirect()->back()->with('success', 'Status pengguna <strong>' . $username . '</strong> berhasil diperbarui menjadi <strong>' . ucfirst($status) . '</strong>.');
+        return redirect()->back()->with('success', 'Status pengguna <strong>' . ucfirst($username) . '</strong> berhasil diperbarui menjadi <strong>' . ucfirst($status) . '</strong>.');
     }
 
     /**
