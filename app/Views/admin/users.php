@@ -12,17 +12,20 @@
     <!-- BEGIN: CSS -->
     <link rel="stylesheet" href="<?= base_url(relativePath: 'assets/css/admin/style.css'); ?>">
     <!-- END: CSS -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
     <div class="sidebar">
-        <button class="hamburger" onclick="toggleSidebar()">☰</button> <!-- Tombol hamburger -->
         <h2>Admin Panel</h2>
         <ul>
-            <li><a href="index"><i class="bi bi-house-door-fill"></i> Dashboard</a></li>
-            <li><a href="events"><i class="bi bi-calendar-event"></i> Kelola Event</a></li>
-            <li class="active"><a href="users"><i class="bi bi-people"></i> Pengguna</a></li>
-            <li><a href="settings"><i class="bi bi-gear"></i> Pengaturan</a></li>
+            <li><a href="<?= base_url('admin/index') ?>"><i class="bi bi-house-door-fill"></i> Dashboard</a></li>
+            <li><a href="<?= base_url('admin/events') ?>"><i class="bi bi-calendar-event"></i> Kelola Event</a></li>
+            <li class="active"><a href="<?= base_url('admin/users') ?>"><i class="bi bi-people"></i> Pengguna</a></li>
+            <li><a href="<?= base_url('admin/archive') ?>"><i class="bi bi-archive"></i> Archive</a></li>
+            <li><a href="<?= base_url('admin/activity') ?>"><i class="bi bi-activity"></i> Activity Logs</a></li>
             <li><a href="/logout"><i class="bi bi-box-arrow-right"></i> Keluar</a></li>
         </ul>
     </div>
@@ -71,7 +74,7 @@
             </div>
         </div>
 
-        <!-- POP UP -->
+        <!-- Flash Data -->
         <?php if (session()->getFlashdata('success')): ?>
             <div class="alert alert-success">
                 <?= session()->getFlashdata('success'); ?>
@@ -186,7 +189,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button> 
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
@@ -224,6 +227,14 @@
                                 <?php endforeach; ?>
                             </select>
                         </div>
+                        <div class="mb-3">
+                            <label for="editPassword" class="form-label">Password Baru (Opsional)</label>
+                            <input type="password" class="form-control" id="editPassword" name="password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Konfirmasi Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirm_password">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -246,32 +257,44 @@
             e.preventDefault();
 
             const formData = new FormData(this);
-            formData.append('csrf_token', '<?= csrf_hash(); ?>');  // CSRF token for security
+            const password = document.getElementById('editPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
 
-            fetch('<?= base_url('admin/users/update_user'); ?>/' + document.getElementById('editUserId').value, {
+            if (password || confirmPassword) {
+                if (password !== confirmPassword) {
+                    alert("Password dan Konfirmasi Password harus sama!");
+                    return;
+                }
+            } else {
+                formData.delete('password'); // Hapus jika kosong
+                formData.delete('confirm_password');
+            }
+
+            const csrfTokenName = '<?= csrf_token(); ?>';
+            const csrfHash = '<?= csrf_hash(); ?>';
+            formData.append(csrfTokenName, csrfHash);
+
+            const userId = document.getElementById('editUserId').value;
+
+            fetch('<?= base_url('admin/users/update_user'); ?>/' + userId, {
                 method: 'POST',
                 headers: {
-                    'X-Requested-With': 'XMLHttpRequest', // Header for AJAX request
+                    'X-Requested-With': 'XMLHttpRequest',
                 },
                 body: formData,
             })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Jika sukses, redirect ke halaman daftar pengguna dan tampilkan flash message sukses
-                        window.location.href = '<?= base_url('admin/users'); ?>'; // Redirect ke halaman users
+                        window.location.href = '<?= base_url('admin/users'); ?>';
                     } else {
-                        // Jika gagal, tampilkan error tanpa alert
-                        // Anda dapat menampilkan pesan error di halaman menggunakan flashdata
-                        console.log('Gagal memperbarui pengguna: ', data.errors);
+                        console.error('Error:', data.message || data.errors);
                     }
                 })
                 .catch(error => {
-                    // Tangani kesalahan jaringan atau kesalahan lain
-                    console.error('Error:', error);
+                    console.error('Network Error:', error.message);
                 });
         });
-
     </script>
 
     <!-- BEGIN: JS -->

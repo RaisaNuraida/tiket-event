@@ -4,11 +4,11 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class GroupModel extends Model
+class CategoryModel extends Model
 {
-    protected $table          = 'groups';
+    protected $table          = 'category';
     protected $primaryKey     = 'id';
     protected $allowedFields  = [
-        'name', 'description'
+        'category', 'description'
     ];
 }

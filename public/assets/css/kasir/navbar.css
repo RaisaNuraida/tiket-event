@@ -1,0 +1,42 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8fafc;
+}
+
+.navbar {
+  background-color: #0f172a !important;
+  padding: 15px 0;
+}
+
+.navbar .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.search-container {
+  flex-grow: 1;
+  max-width: 500px;
+}
+
+.create-event {
+  background-color: #ffd700 !important;
+  color: #0f172a !important;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+.kasir-username {
+  color: #ffd700; /* Warna sama dengan create-event */
+  padding: 8px 15px;
+  border-radius: 5px;
+  background: transparent;
+}
+
+.logout-btn {
+  background-color: #ffd700 !important;
+  color: #0f172a !important;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+}

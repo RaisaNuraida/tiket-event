@@ -1,46 +1,122 @@
 body {
-  background-color: #f4f4f9;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+p {
+  color: #ffd700;
 }
 
 .login-container {
-  width: 100%; /* Lebar penuh untuk layar kecil */
-  max-width: 400px; /* Batas maksimal lebar kontainer */
-  margin: 0 auto;
+  width: 100%;
+  max-width: 400px;
   padding: 40px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(30, 41, 59, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
 .login-container h1 {
-  font-size: 26px; /* Sedikit lebih besar */
+  font-size: 28px;
   margin-bottom: 25px;
-  color: #333;
+  color: #ffd700;
+  text-align: center;
+  font-weight: 600;
 }
 
 .form-label {
-  font-size: 14px; /* Label diperkecil */
-  color: #555;
+  font-size: 14px;
+  color: #f8fafc;
+  font-weight: 500;
+}
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #c0c0c0;
+  padding: 12px 15px;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+  outline: none;
 }
 
 .error-message {
-  color: red;
-  margin-bottom: 10px;
+  color: #dc3545;
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-align: center;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(10px);
+  }
 }
 
 .btn-primary {
-  padding: 12px; /* Tambahkan padding agar lebih nyaman */
-  font-size: 16px; /* Ukuran teks tombol lebih besar */
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ffd700, #c0c0c0);
+  border: none;
+  color: #1e293b;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
-/* Media Query untuk layar yang lebih kecil */
+.btn-primary:hover {
+  background: linear-gradient(135deg, #ecc800, #afafaf);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
 @media (max-width: 768px) {
   .login-container {
-    padding: 20px; /* Kurangi padding pada layar kecil */
+    padding: 20px;
+    max-width: 90%;
   }
-
   .btn-primary {
-    padding: 10px; /* Kurangi padding tombol untuk layar kecil */
+    padding: 10px;
     font-size: 14px;
+  }
+  .login-container h1 {
+    font-size: 24px;
   }
 }
